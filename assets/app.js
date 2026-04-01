@@ -40,6 +40,9 @@ const functions = getFunctions(app, functionsRegion);
 const signInBtn = document.getElementById('signInBtn');
 const signOutBtn = document.getElementById('signOutBtn');
 const authFeedback = document.getElementById('authFeedback');
+const setAuthFeedback = (message = '') => {
+  if (authFeedback) authFeedback.textContent = message;
+};
 const authState = document.getElementById('authState');
 const appShell = document.getElementById('appShell');
 const workspaceSelect = document.getElementById('workspaceSelect');
@@ -68,7 +71,7 @@ const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 signInBtn.addEventListener('click', async () => {
-  authFeedback.textContent = '';
+  setAuthFeedback('');
   const isSmallScreen = window.matchMedia('(max-width: 900px)').matches;
   if (isSmallScreen) {
     await signInWithRedirect(auth, googleProvider);
@@ -80,11 +83,11 @@ signInBtn.addEventListener('click', async () => {
   } catch (error) {
     const popupRecoverable = ['auth/popup-closed-by-user', 'auth/popup-blocked', 'auth/cancelled-popup-request'].includes(error.code);
     if (popupRecoverable) {
-      authFeedback.textContent = 'Popup was blocked/closed. Redirecting to Google sign-in...';
+      setAuthFeedback('Popup was blocked/closed. Redirecting to Google sign-in...');
       await signInWithRedirect(auth, googleProvider);
       return;
     }
-    authFeedback.textContent = `Sign-in failed: ${error.message}`;
+    setAuthFeedback(`Sign-in failed: ${error.message}`);
   }
 });
 signOutBtn.addEventListener('click', async () => signOut(auth));
@@ -111,7 +114,7 @@ for (const btn of document.querySelectorAll('.tab-btn')) {
 try {
   await getRedirectResult(auth);
 } catch (error) {
-  authFeedback.textContent = `Redirect sign-in failed: ${error.message}`;
+  setAuthFeedback(`Redirect sign-in failed: ${error.message}`);
 }
 
 onAuthStateChanged(auth, async (user) => {
