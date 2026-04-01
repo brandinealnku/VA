@@ -3,9 +3,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
-  getRedirectResult,
   signInWithPopup,
-  signInWithRedirect,
   signOut
 } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
 import {
@@ -72,21 +70,9 @@ googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 signInBtn.addEventListener('click', async () => {
   setAuthFeedback('');
-  const isSmallScreen = window.matchMedia('(max-width: 900px)').matches;
-  if (isSmallScreen) {
-    await signInWithRedirect(auth, googleProvider);
-    return;
-  }
-
   try {
     await signInWithPopup(auth, googleProvider);
   } catch (error) {
-    const popupRecoverable = ['auth/popup-closed-by-user', 'auth/popup-blocked', 'auth/cancelled-popup-request'].includes(error.code);
-    if (popupRecoverable) {
-      setAuthFeedback('Popup was blocked/closed. Redirecting to Google sign-in...');
-      await signInWithRedirect(auth, googleProvider);
-      return;
-    }
     setAuthFeedback(`Sign-in failed: ${error.message}`);
   }
 });
@@ -111,11 +97,6 @@ for (const btn of document.querySelectorAll('.tab-btn')) {
   });
 }
 
-try {
-  await getRedirectResult(auth);
-} catch (error) {
-  setAuthFeedback(`Redirect sign-in failed: ${error.message}`);
-}
 
 onAuthStateChanged(auth, async (user) => {
   currentUser = user;
