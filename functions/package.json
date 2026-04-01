@@ -1,0 +1,21 @@
+{
+  "name": "knowledge-base-functions",
+  "private": true,
+  "engines": {
+    "node": "20"
+  },
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "lint": "echo 'No linter configured'",
+    "serve": "firebase emulators:start --only functions",
+    "deploy": "firebase deploy --only functions"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.1.1",
+    "firebase-functions": "^5.0.1",
+    "mammoth": "^1.8.0",
+    "openai": "^4.104.0",
+    "pdf-parse": "^1.1.1"
+  }
+}

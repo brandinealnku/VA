@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Knowledge Base Workspace</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Knowledge Base</h1>
+      <div class="topbar-actions">
+        <button id="signInBtn" class="btn">Sign in with Google</button>
+        <button id="signOutBtn" class="btn" hidden>Sign out</button>
+      </div>
+    </header>
+
+    <main class="layout" hidden id="appShell">
+      <aside class="card workspace-panel">
+        <h2>Workspace</h2>
+        <p class="muted">Each workspace is isolated by owner + workspace ID.</p>
+        <select id="workspaceSelect"></select>
+        <div class="inline-actions">
+          <button id="createWorkspaceBtn" class="btn">New Workspace</button>
+          <button id="refreshWorkspaceBtn" class="btn">Refresh</button>
+        </div>
+      </aside>
+
+      <section class="card">
+        <h2>Documents</h2>
+        <p class="muted">Supported: PDF, TXT, MD, DOCX (max 10MB each).</p>
+        <input id="fileInput" type="file" multiple accept=".pdf,.txt,.md,.docx,text/plain,text/markdown,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+        <button id="uploadBtn" class="btn btn-primary">Upload Files</button>
+        <p id="uploadStatus" class="muted"></p>
+        <div id="documentTable" class="table"></div>
+      </section>
+
+      <section class="card tabs">
+        <div class="tab-header">
+          <button class="tab-btn active" data-tab="chat">Chat</button>
+          <button class="tab-btn" data-tab="search">Search</button>
+        </div>
+
+        <div id="chatTab" class="tab-content">
+          <h2>Chat with your documents</h2>
+          <p class="muted">No history yet? Try: "When is Assignment 3 due?"</p>
+          <div id="chatHistory" class="chat-history"></div>
+          <div class="chat-compose">
+            <textarea id="chatInput" rows="3" placeholder="Ask a document-grounded question..."></textarea>
+            <button id="sendChatBtn" class="btn btn-primary">Ask</button>
+          </div>
+        </div>
+
+        <div id="searchTab" class="tab-content" hidden>
+          <h2>Search documents</h2>
+          <div class="search-row">
+            <input id="searchInput" type="text" placeholder="Search policies, dates, instructions..." />
+            <button id="searchBtn" class="btn btn-primary">Search</button>
+          </div>
+          <div id="searchResults"></div>
+        </div>
+      </section>
+    </main>
+
+    <section id="authState" class="card auth-card">
+      <h2>Sign in required</h2>
+      <p>Use Google sign-in to access your workspace, upload files, and run grounded chat/search.</p>
+    </section>
+
+    <script type="module" src="assets/app.js"></script>
+  </body>
+</html>
